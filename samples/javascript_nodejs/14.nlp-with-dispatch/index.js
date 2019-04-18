@@ -26,9 +26,9 @@ const adapter = new BotFrameworkAdapter({
 });
 
 const luisService = new LuisService({
-    appId: process.env.nlpWithDispatchDispatchAppId,
-    authoringKey: process.env.nlpWithDispatchDispatchAuthoringkey,
-    region: process.env.nlpWithDispatchDispatchRegion
+    appId: process.env.DispatchAppId,
+    authoringKey: process.env.DispatchAuthoringKey,
+    region: process.env.DispatchRegion
 });
 
 const dispatchRecognizer = new LuisRecognizer({
@@ -41,9 +41,9 @@ const dispatchRecognizer = new LuisRecognizer({
 }, true);
 
 const qnaMaker = new QnAMaker({
-    knowledgeBaseId: process.sampleQnaKbId,
-    endpointKey: process.sampleQnaEndpointKey,
-    host: process.env.sampleQnaHostname
+    knowledgeBaseId: process.env.SampleQnaKbId,
+    endpointKey: process.env.SampleQnaEndpointKey,
+    host: process.env.SampleQnaHostname
 });
 
 // Catch-all for errors.
