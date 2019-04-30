@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { config } from 'dotenv';
+import { WebSocketConnector } from 'microsoft-bot-protocol-streamingextensions';
 import * as path from 'path';
 import * as restify from 'restify';
 
@@ -16,7 +17,7 @@ const ENV_FILE = path.join(__dirname, '..', '.env');
 config({ path: ENV_FILE });
 
 // Create HTTP server.
-const server = restify.createServer();
+const server = restify.createServer({ handleUpgrades: true });
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
@@ -47,4 +48,13 @@ server.post('/api/messages', (req, res) => {
         // Route to main dialog.
         await myBot.run(context);
     });
+});
+
+server.get('/api/messages', function handleUpgrades(req, res, next) {
+ const wsc = new WebSocketConnector(myBot);
+
+ wsc.processAsync(req, res, {
+    appId: process.env.MicrosoftAppId,
+    appPassword: process.env.MicrosoftAppPassword,
+ });
 });
